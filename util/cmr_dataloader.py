@@ -75,8 +75,9 @@ class SegmentationPair2D(object):
         self.gt_filename = gt_filename
         self.canonical = canonical
         self.cache = cache
-
+        print(f'input_filename: {input_filename}')
         self.input_handle = nib.load(self.input_filename)
+
 
         # Unlabeled data (inference time)
         if self.gt_filename is None:

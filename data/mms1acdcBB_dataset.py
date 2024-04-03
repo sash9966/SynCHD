@@ -38,9 +38,9 @@ class Mms1acdcBBDataset(BaseDataset):
         #                     help='path to the directory that contains label images')
         # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/images" ,
         #                     help='path to the directory that contains photo images')
-        parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/alltrainingdata/data/segmentation",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/sastocke/data/data/testimage/ct_1029_image.nii.gz" ,
+        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img" ,
                             help='path to the directory that contains photo images')
         # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/SynthesizedTest",
         #                     help='path to the directory that contains label images')
@@ -65,7 +65,7 @@ class Mms1acdcBBDataset(BaseDataset):
         To prepare and get the list of files
         """
 
-        #SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
+        SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
 
         #Single file loading:
         self.img_list = []
@@ -76,12 +76,12 @@ class Mms1acdcBBDataset(BaseDataset):
         self.msk_list += [opt.label_dir]
         self.filename_pairs += [(opt.image_dir, opt.label_dir)]  
 
-        # if(opt.phase == 'test'):
-        #     #For test we will generate images with different mask but paired with one patient image for the background.
-        #     single_image = opt.image_dir
-        #     SA_image_list = [single_image] * len(SA_mask_list)
-        # else:
-        #     SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
+        if(opt.phase == 'test'):
+            #For test we will generate images with different mask but paired with one patient image for the background.
+            single_image = opt.image_dir
+            SA_image_list = [single_image] * len(SA_mask_list)
+        else:
+            SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
 
         # print(f'length of SA_image_list: {len(SA_image_list)}')
         # print(f'length of SA_mask_list: {len(SA_mask_list)}')
@@ -94,17 +94,17 @@ class Mms1acdcBBDataset(BaseDataset):
         #     assert len(SA_image_list) == len(SA_mask_list)
 
 
-        # SA_filename_pairs = [] 
+        SA_filename_pairs = [] 
 
-        # for i in range(len(SA_image_list)):
-        #     SA_filename_pairs += [(os.path.join(opt.image_dir,SA_image_list[i]), os.path.join(opt.label_dir, SA_mask_list[i]))]
+        for i in range(len(SA_image_list)):
+            SA_filename_pairs += [(os.path.join(opt.image_dir,SA_image_list[i]), os.path.join(opt.label_dir, SA_mask_list[i]))]
 
         
-        # self.img_list = SA_image_list
-        # self.msk_list = SA_mask_list
-        # self.filename_pairs = SA_filename_pairs
+        self.img_list = SA_image_list
+        self.msk_list = SA_mask_list
+        self.filename_pairs = SA_filename_pairs
 
-        # #print the file names and their content
+        #print the file names and their content
 
 
         return self.filename_pairs, self.img_list, self.msk_list
@@ -113,7 +113,6 @@ class Mms1acdcBBDataset(BaseDataset):
 
     def initialize(self, opt):
         self.opt = opt
-        print(f'filename pairs trying to be read from options: {self.opt}')
         self.filename_pairs, _, _  = self.get_paths(self.opt)
 
 
@@ -155,7 +154,7 @@ class Mms1acdcBBDataset(BaseDataset):
                 # cmr_tran.RandomRotation(p=0.5),
                 
                 cmr_tran.ToTensor(),
-                cmr_tran.NormalizeMinMaxpercentile(range=(-1,1), percentiles=(1,99)),
+                #cmr_tran.NormalizeMinMaxpercentile(range=(-1,1), percentiles=(1,99)),
                 # cmr_tran.NormalizeMinMaxRange(range=(-1,1)),
                 
 
