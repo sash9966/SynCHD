@@ -140,7 +140,7 @@ for epoch in iter_counter.training_epochs():
             axs[2].imshow(data_i['image'].detach().cpu()[rand,0,:,:],cmap='gray')
             axs[2].axis('off')
             axs[2].set_title('Real Image')
-            #plt.savefig(f'/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/checkpoints/{name_of_try}/web/images/epoch{epoch}_{i}_plotdepth.png')
+            plt.savefig(f'/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/checkpoints/{name_of_try}/web/images/epoch{epoch}_{i}_plotdepth.png')
             fig.clf()
 
             #Save 3D stacked image
