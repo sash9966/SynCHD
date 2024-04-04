@@ -120,13 +120,13 @@ for epoch in iter_counter.training_epochs():
                 rand= np.random.randint(0, opt.batchSize-1)
             else:
                 rand=0
-            print(f'shape of synthetic: {synthetic.shape}')
-            print(f'shape of data_i: {data_i["image"].shape}')
-            print(f'shape of label: {data_i["label"].shape}')
-            print(f'rand int is: {rand}')
+            # print(f'shape of synthetic: {synthetic.shape}')
+            # print(f'shape of data_i: {data_i["image"].shape}')
+            # print(f'shape of label: {data_i["label"].shape}')
+            # print(f'rand int is: {rand}')
             
-            #Print the unique values of the syntehtic iamge:
-            print(f'unique values of synthetic: {np.unique(synthetic.detach().cpu()[rand,0,:,:])}')
+            # #Print the unique values of the syntehtic iamge:
+            # print(f'unique values of synthetic: {np.unique(synthetic.detach().cpu()[rand,0,:,:])}')
 
 
             fig, axs = plt.subplots(1, 3, figsize=(15, 5))
@@ -140,7 +140,7 @@ for epoch in iter_counter.training_epochs():
             axs[2].imshow(data_i['image'].detach().cpu()[rand,0,:,:],cmap='gray')
             axs[2].axis('off')
             axs[2].set_title('Real Image')
-            plt.savefig(f'/home/sastocke/2Dslicesfor3D/checkpoints/{name_of_try}/web/images/epoch{epoch}_{i}_plotdepth.png')
+            #plt.savefig(f'/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/checkpoints/{name_of_try}/web/images/epoch{epoch}_{i}_plotdepth.png')
             fig.clf()
 
             #Save 3D stacked image
