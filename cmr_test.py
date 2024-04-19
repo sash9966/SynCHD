@@ -16,7 +16,7 @@ from util.util import save_as_resized_pickle
 import pickle
 
  
-ref_img = sitk.ReadImage('/scratch/users/fwkong/SharedData/Synthesized_correction/ct_1001_image_pred_r0.nii.gz')
+#ref_img = sitk.ReadImage('/scratch/users/fwkong/SharedData/Synthesized_correction/ct_1001_image_pred_r0.nii.gz')
 
 
 
@@ -24,10 +24,13 @@ ref_img = sitk.ReadImage('/scratch/users/fwkong/SharedData/Synthesized_correctio
 opt = TestOptions().parse()
 
 #Generate image for these masks
-#opt.label_dir = '/scratch/users/fwkong/SharedData/Synthesized'
+opt.label_dir = '/scratch/users/fwkong/CHD/imageCHDCleanedOriginal_aligned_all/aligned/seg'
+opt.label_dir = '/scratch/users/fwkong/CHD/output/wh_raw_tests_cleanedall/GenLargeWHSep3/Ours_final_Apr11/alter5Joint1000_latent4_lipx100_NOuseDiag_Init1017_DivMag0.01_Pad0_GradMag0_smplfac20_twophase/train_2200/shape_gen/seg'
 #Background image for generation!
-opt.image_dir = '/scratch/users/sastocke/data/data/images/ct_1001_image.nii.gz'
+opt.image_dir = '/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/ct_1178_image_nrmp1m05.nii.gz'
 #Output path to save the generated images
+opt.results_dir = '/scratch/users/fwkong/CHD/imageCHDCleanedOriginal_aligned_all/aligned/syn_testp1m05'
+opt.results_dir = '/scratch/users/fwkong/CHD/output/wh_raw_tests_cleanedall/GenLargeWHSep3/Ours_final_Apr11/alter5Joint1000_latent4_lipx100_NOuseDiag_Init1017_DivMag0.01_Pad0_GradMag0_smplfac20_twophase/train_2200/shape_gen/img'
 output_path = opt.results_dir
 #target_path = '/scratch/users/fwkong/SharedData/imageCHDcleaned_all/whole_heart_processed/pytorch/ct_1001_image_0.pkl'
 name = opt.name
@@ -35,7 +38,9 @@ name = opt.name
 #For generation, batchSize must be 1, create one slice at a time
 opt.batchSize = 1
 
-
+ref_img = sitk.ReadImage(opt.image_dir)
+if not os.path.exists(output_path):
+    os.makedirs(output_path)
 dataloader = data.create_dataloader(opt)
 
 model = Pix2PixModel(opt)
@@ -43,18 +48,27 @@ model.eval()
 
 visualizer = Visualizer(opt)
 
+image3D_epoch = None
 
 # test
+print("total slices", len(dataloader))
 for i, data_i in enumerate(dataloader):
+
+    #get image nr. from path file name
+    filename = os.path.basename(data_i['gtname'][0])
+
+    if os.path.exists(os.path.join(output_path, filename)):
+        #print("Exist: ", os.path.join(output_path, filename))
+        continue
+
 
 
     generated = model(data_i, mode='inference')
     
-    
-    if(i==0):
+    if(i==0 or image3D_epoch is None):
         print(f'inital')
-        path = data_i['gtname'][0]
         #Expected 3D
+        path = data_i['gtname'][0]
         image3D_epoch = torch.empty(512,512,221)
         image3D_epoch[:,:,0] = generated[0,0,:,:]
 
@@ -79,16 +93,8 @@ for i, data_i in enumerate(dataloader):
         img = sitk.GetImageFromArray(image3D_epoch_np.transpose(2, 1, 0))
         img.CopyInformation(ref_img)
 
-
         #get image nr. from path file name
-
-
-
-        imgNr= int(re.search(r"\d{4}", path).group())
-
-
-        filename = f"3DImage{name}{imgNr}.nii.gz"
-
+        filename = os.path.basename(path)
         sitk.WriteImage(img, os.path.join(output_path, filename))
 
         
@@ -100,7 +106,7 @@ for i, data_i in enumerate(dataloader):
         generated = model(data_i, mode='inference')
         image3D_epoch[:,:,0] = generated[0,0,:,:]
     elif(True):
-        print(f'adding')
+        #print(f'adding')
         #Add to the stack of 3D
         image3D_epoch[:,:,i%221] = generated[0,0,:,:]
     

@@ -8,6 +8,7 @@ from data.base_dataset import BaseDataset
 
 
 import os
+import glob
 import nibabel as nib
 import util.cmr_dataloader as cmr
 import util.cmr_transform as cmr_tran
@@ -65,8 +66,12 @@ class Mms1acdcBBDataset(BaseDataset):
         To prepare and get the list of files
         """
 
-        SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
-
+        SA_mask_list_all = sorted(glob.glob(os.path.join(opt.label_dir, '*.nii.gz')))
+        # check if exists:
+        SA_mask_list = []
+        for s in SA_mask_list_all:
+            if not os.path.exists(os.path.join(opt.results_dir, os.path.basename(s))):
+                SA_mask_list.append(s)
         #Single file loading:
         self.img_list = []
         self.msk_list = []
