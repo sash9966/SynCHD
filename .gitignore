@@ -6,3 +6,4 @@ pickle/acdc_pickle.pkl
 /curves
 pickle
 runs
+__pycache__/
