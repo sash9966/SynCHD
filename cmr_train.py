@@ -32,16 +32,12 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 #Sherlock!
 elif (ospath == "/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D"):
     opt = TrainOptions().parse()
-    ref_img = sitk.ReadImage("/scratch/users/sastocke/data/data/resample128/images/ct_1001_image.nii.gz")
-    opt.checkpoints_dir = "/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/checkpoints"
-
-    opt.label_dir = "/scratch/users/sastocke/data/data/resample128/masks"
-    opt.image_dir = "/scratch/users/sastocke/data/data/resample128/images"
+    ref_img = sitk.ReadImage("/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img128/ct_1001_image.nii.gz")
     name_of_try= opt.name
     web_dir = os.path.join(opt.checkpoints_dir, opt.name,
                        '%s_%s' % (opt.phase, opt.which_epoch))
-
-    opt.unet_path = "/scratch/users/fwkong/SharedData/UNets_correction/baseline/"
+    if (opt.unet_loss):
+        opt.unet_path = "/scratch/users/fwkong/SharedData/UNets_correction/baseline/"
     webpage = html.HTML(web_dir,
                         'Experiment = %s, Phase = %s, Epoch = %s' %
                         (opt.name, opt.phase, opt.which_epoch))
@@ -108,8 +104,8 @@ for epoch in iter_counter.training_epochs():
                 
 
             #sanity test:
-            print(f'image path: {data_i["path"][0]}')
-            print(f'gt_label path: {data_i["gtname"][0]} ')
+            # print(f'image path: {data_i["path"][0]}')
+            # print(f'gt_label path: {data_i["gtname"][0]} ')
             
             img = sitk.GetImageFromArray(latest_image[0,0,:,:,:])
             img.CopyInformation(ref_img)
