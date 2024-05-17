@@ -81,7 +81,7 @@ class SPADE3D(nn.Module):
             self.param_free_norm = nn.InstanceNorm3d(norm_nc, affine=False)
         elif param_free_norm_type == 'syncbatch':
             print(f'Synchbachnorm3D used!')
-            self.param_free_norm = nn.SynchronizedBatchNorm3d(norm_nc, affine=False)
+            self.param_free_norm = SynchronizedBatchNorm3d(norm_nc, affine=False)
         elif param_free_norm_type == 'batch':
             self.param_free_norm = nn.BatchNorm3d(norm_nc, affine=False)
         else:
