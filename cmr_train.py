@@ -28,7 +28,7 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
                         (opt.name, opt.phase, opt.which_epoch))
 
 
-
+#Test git update...')
 #Sherlock!
 elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
     opt = TrainOptions().parse()
