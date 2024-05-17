@@ -152,7 +152,7 @@ class Modified3DUNetLoss(nn.Module):
         if pretrained_model_path is not None:
             #self.unet.load_state_dict(torch.load(pretrained_model_path))
 
-            checkpoint_folder = os.path.join(pretrained_model_path,'net_150.pt')
+            checkpoint_folder = os.path.join(pretrained_model_path,'net.pt')
             self.unet.load_state_dict(torch.load(checkpoint_folder, map_location=torch.device('cpu'))['state_dict'])
             
 
