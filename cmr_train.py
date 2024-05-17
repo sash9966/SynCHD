@@ -30,7 +30,7 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 
 
 #Sherlock!
-elif (ospath == "/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D"):
+elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
     opt = TrainOptions().parse()
     ref_img = sitk.ReadImage("/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img128/ct_1001_image.nii.gz")
     name_of_try= opt.name
