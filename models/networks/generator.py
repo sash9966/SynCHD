@@ -623,7 +623,6 @@ class StyleSPADE3DGenerator(BaseNetwork):
 
         # resnet blocks, first one takes 3D information
         for i in range(opt.resnet_n_blocks):
-            #print(f'adding resnet block {i}')
             kernel_size_3d = [3,3,3]
 
             model += [ResnetBlock3D(opt.ngf * mult,  # use 3D version of ResnetBlock
@@ -674,69 +673,39 @@ class StyleSPADE3DGenerator(BaseNetwork):
 
 
     def forward(self, input, image, input_dist=None):
-        #print(f'#############################')
-        #print(f'start of one forward pass:')
         
         seg = input
         image = image
         nf = self.opt.ngf
         bs = self.opt.batchSize
 
-        # print(f'nf : {nf}')
-
-        # print(f' image shape: {image.shape}')
-        # print(f'segmentaiton shape: {seg.shape}')
         image = image.unsqueeze(1)
         
-        #print(f'shapes image: {image.shape}, seg: {seg.shape}')
         # seg = seg.permute(0, 1, 4, 2,3 ) # This reorders the dimensions to (Batch, Channel, Depth, Height, Width)
         # image = image.permute(0, 1, 4, 2, 3) # This reorders the dimensions to (Batch, Channel, Depth, Height, Width
         depth= seg.shape[2]
-        # print(f'depth: {depth}')
-        # print(f' image after unsqueeze and permutation: {image.shape}') 
-        # print(f'segmentation: {seg.shape}')
         #summary(self.model, (1, 1, 3,512,512))
         x = self.model(image)
-        # print(f'x shape after self.model(image): {x.shape}')
-
-        
         #self.opt.ngf = 16
         x = x.view(x.size(0), -1)
         x = self.fc_img(x)
-        # print(f'x shape after fc_img: {x.shape}')
         x = self.fc_img2(x)
 
-        # print(f'x shape after fc_img2 : {x.shape}')
         x = x.view(bs, -1, 8, 8, 8)  # reshaping to have depth dimension again
   
-
-
-        # print(f'x shape after view: {x.shape}')
-        # print(f'seg shape: {seg.shape}')
-        # print(f'input_dist shape: {input_dist.shape}')
         x = self.head_0(x, seg, input_dist)
-        #print(f'x after head_0: {x.shape}')
 
         x = self.G_middle_0(x, seg, input_dist)
-        #print(f'x after G_middle_0: {x.shape}')
 
 
         x = self.up(x)
-        #print(f'x after up: {x.shape}')
         x = self.up_0(x, seg, input_dist)
-        #print(f'x after up_0: {x.shape}')
         x = self.up(x)
-        ##print(f'x after up: {x.shape}')
         x = self.up_1(x, seg, input_dist)
-        #print(f'x after up_1: {x.shape}')
         x = self.up(x)
-        ##print(f'x after up: {x.shape}')
         x = self.up_2(x, seg, input_dist)
-        #print(f'x after up_2: {x.shape}')
         x = self.up(x)
-        #print(f'x after up: {x.shape}')
         x = self.up_3(x, seg, input_dist)
-        #print(f'x after up_3: {x.shape}')
 
         if self.opt.num_upsampling_layers == 'most':
             x = self.up(x)

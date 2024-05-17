@@ -162,20 +162,11 @@ class SPADE(nn.Module):
 
     def forward(self, x, segmap, input_dist=None):
 
-        # Part 1. generate parameter-free normalized activations
-        #print(f' x shape: {x.shape}')
+
         normalized = self.param_free_norm(x)
 
-        #print(f' segmap shape before permute: {segmap.shape}')
-        # Part 2. produce scaling and bias conditioned on semantic map
-
-
-        #permutate for interpolation readin: mini-batch x channels x [optional depth] x [optional height] x width
         segmap = segmap.permute(0, 1, 4, 2, 3)
-        #print(f' segmap shape after permute: {segmap.shape}')
         x_expanded = x.unsqueeze(2).repeat(1, 1, segmap.size(2), 1, 1)
-
-        #print(f'shape of x: {x.shape}') 
 
         segmap = F.interpolate(segmap, size=x_expanded.size()[2:], mode='nearest')
         actv = self.mlp_shared(segmap)

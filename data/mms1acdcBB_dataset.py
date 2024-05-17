@@ -55,9 +55,9 @@ class Mms1acdcBBDataset(BaseDataset):
         # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/masks/" ,
         #                     help='path to the directory that contains photo images')
         
-        parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/resample128/masks/",
-                            help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/data/resample128/images/",
+        # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/resample128/masks/",
+        #                     help='path to the directory that contains label images')
+        parser.add_argument('--image_dir', type=str, required=False, default ="/Users/saschastocker/Documents/Stanford/work2024/Data/cropped",
                             help='path to the directory that contains photo images')
         
         # parser.add_argument('--label_dir_B', type=str, required=False, default = "/Users/saschastocker/Desktop/Data/StyleTransfer/segmentationTestFullResolution",
@@ -78,8 +78,9 @@ class Mms1acdcBBDataset(BaseDataset):
         To prepare and get the list of files
         """
 
-        
-        SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
+        if(opt.phase ==  'train_unconditional'):
+            SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
+            
 
         if(opt.phase == 'test'):
             #For test we will generate images with different mask but paired with one patient image for the background.
@@ -87,7 +88,8 @@ class Mms1acdcBBDataset(BaseDataset):
             SA_image_list = [single_image] * len(SA_mask_list)
             #print(f'length of SA_image_list: {len(SA_image_list)}')
             #print(f'length of SA_mask_list: {len(SA_mask_list)}')
-        else:
+        elif(opt.phase == 'train'):
+            SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
             SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
 
         # SA_image_list_B = sorted(os.listdir(os.path.join(opt.image_dir_B)))
@@ -101,7 +103,7 @@ class Mms1acdcBBDataset(BaseDataset):
 
 
         # assert len(SA_mask_list_B) == len(SA_image_list_B) 
-        if(opt.phase != 'test'):
+        if(opt.phase != 'test' and opt.phase != 'train_unconditional'):
 
             assert len(SA_image_list) == len(SA_mask_list)
 
