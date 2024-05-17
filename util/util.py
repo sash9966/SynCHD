@@ -561,7 +561,7 @@ def plot_viewpoint_slices(label, latest_image, real_image, epoch, i, name_of_try
     fig, axs = plt.subplots(3, 3, figsize=(15, 15))
 
     # Random number inside the 128^3 voxel, trying to avoid the edges where there are no labels -> 15-115 range
-    rand = np.random.randint(15, 115)
+    rand = np.random.randint(50, 100)
     # print(f' shape of label: {label.shape}')
     # print(f' shape of latest_image: {latest_image.shape}')
     # print(f' shape of real_image: {real_image.shape}')
