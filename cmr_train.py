@@ -37,7 +37,7 @@ elif (ospath == "/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor
     web_dir = os.path.join(opt.checkpoints_dir, opt.name,
                        '%s_%s' % (opt.phase, opt.which_epoch))
     if (opt.unet_loss):
-        opt.unet_path = "/scratch/users/fwkong/CHD/output/wh_raw_tests_cleanedall/UNets/aug7_real_3dunet/"
+        opt.unet_path = "/scratch/users/fwkong/CHD/output/wh_raw_tests_cleanedall/UNets/aug7_real_3dunet/net.pt"
     webpage = html.HTML(web_dir,
                         'Experiment = %s, Phase = %s, Epoch = %s' %
                         (opt.name, opt.phase, opt.which_epoch))
