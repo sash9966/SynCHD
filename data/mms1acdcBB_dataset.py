@@ -13,6 +13,7 @@ import util.cmr_dataloader as cmr
 import util.cmr_transform as cmr_tran
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
+import glob
 
 
 TR_CLASS_MAP_MMS_SRS= {'LV': 0,'RV': 1, 'LA': 2,'RA': 3, 'Myo' : 4, 'Aorta':5,'Pulminary' : 6, 'Background':7 }
@@ -79,7 +80,12 @@ class Mms1acdcBBDataset(BaseDataset):
         """
 
         
-        SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
+        SA_mask_list_all = sorted(glob.glob(os.path.join(opt.label_dir, '*.nii.gz')))
+        # check if exists:
+        SA_mask_list = []
+        for s in SA_mask_list_all:
+            if not os.path.exists(os.path.join(opt.results_dir, os.path.basename(s))):
+                SA_mask_list.append(s)
 
         if(opt.phase == 'test'):
             #For test we will generate images with different mask but paired with one patient image for the background.
