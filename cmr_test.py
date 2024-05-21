@@ -77,7 +77,6 @@ for i, data_i in enumerate(dataloader):
     filename = os.path.basename(data_i['gtname'][0])
     sitk.WriteImage(img, os.path.join(opt.results_dir, filename))
     print(f'saved image: {filename}')
-
     
     
    
