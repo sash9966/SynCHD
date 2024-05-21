@@ -88,15 +88,15 @@ class Mms1acdcBBDataset(BaseDataset):
             SA_mask_list = []
 
             if not os.path.exists(os.path.join(opt.results_dir, os.path.basename(opt.label_dir))):
-                SA_mask_list.append(s)
+                SA_mask_list.append(opt.label_dir)
             #For test we will generate images with different mask but paired with one patient image for the background.
             single_image = opt.image_dir
             SA_image_list = [single_image] * len(SA_mask_list)
             print(f'length of SA_image_list: {len(SA_image_list)}')
             print(f'length of SA_mask_list: {len(SA_mask_list)}')
         else:
-            SA_mask_list_all = sorted(glob.glob(os.path.join(opt.label_dir, '*.nii.gz')))
-            SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
+            SA_mask_list = sorted(os.listdir(opt.label_dir))
+            SA_image_list = sorted(os.listdir(opt.image_dir))
 
         # SA_image_list_B = sorted(os.listdir(os.path.join(opt.image_dir_B)))
         # SA_mask_list_B = sorted(os.listdir(os.path.join(opt.label_dir_B)))
