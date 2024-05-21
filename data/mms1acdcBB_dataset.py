@@ -81,7 +81,7 @@ class Mms1acdcBBDataset(BaseDataset):
 
         print(f'opt.label_dir: {opt.label_dir}')
         print(f'opt.image_dir: {opt.image_dir}')
-        SA_mask_list_all = sorted(glob.glob(os.path.join(opt.label_dir, '*.nii.gz')))
+        SA_mask_list_all = sorted(glob.glob(os.path.join(opt.label_dir)))
         # check if exists:
         SA_mask_list = []
         for s in SA_mask_list_all:
