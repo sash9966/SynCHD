@@ -131,7 +131,7 @@ class Mms1acdcBBDataset(BaseDataset):
         self.filename_pairs = SA_filename_pairs
 
 
-
+        print(f'len of filename pairs: {len(self.filename_pairs)}')
         return self.filename_pairs, self.img_list, self.msk_list
 
 
