@@ -74,7 +74,6 @@ for i, data_i in enumerate(dataloader):
     img = sitk.GetImageFromArray(img_numpy_transposed)
     img.CopyInformation(ref_img)
     path = data_i['gtname'][0]
-    imgNr, r_Nr= extract_filename(path)
     filename = os.path.basename(data_i['gtname'][0])
     sitk.WriteImage(img, os.path.join(opt.results_dir, filename))
     print(f'saved image: {filename}')
