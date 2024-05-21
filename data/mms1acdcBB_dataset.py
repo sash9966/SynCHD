@@ -79,7 +79,8 @@ class Mms1acdcBBDataset(BaseDataset):
         To prepare and get the list of files
         """
 
-        
+        print(f'opt.label_dir: {opt.label_dir}')
+        print(f'opt.image_dir: {opt.image_dir}')
         SA_mask_list_all = sorted(glob.glob(os.path.join(opt.label_dir, '*.nii.gz')))
         # check if exists:
         SA_mask_list = []
@@ -91,8 +92,8 @@ class Mms1acdcBBDataset(BaseDataset):
             #For test we will generate images with different mask but paired with one patient image for the background.
             single_image = opt.image_dir
             SA_image_list = [single_image] * len(SA_mask_list)
-            #print(f'length of SA_image_list: {len(SA_image_list)}')
-            #print(f'length of SA_mask_list: {len(SA_mask_list)}')
+            print(f'length of SA_image_list: {len(SA_image_list)}')
+            print(f'length of SA_mask_list: {len(SA_mask_list)}')
         else:
             SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
 
@@ -101,8 +102,8 @@ class Mms1acdcBBDataset(BaseDataset):
 
         #pathologies = sorted(os.listdir(os.path.join(opt.acdc_dir)))
         
-        #print(f'length of SA_image_list: {len(SA_image_list)}')
-        #print(f'length of SA_mask_list: {len(SA_mask_list)}')
+        print(f'length of SA_image_list: {len(SA_image_list)}')
+        print(f'length of SA_mask_list: {len(SA_mask_list)}')
 
 
 
