@@ -30,7 +30,7 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 #Sherlock!
 elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
     opt = TestOptions().parse()
-    # ref_img = sitk.ReadImage("/scratch/users/sastocke/data/data/testresample128normed/ct_1129_image.nii.gz")
+    ref_img = sitk.ReadImage(opt.image_dir)
     opt.checkpoints_dir = "/scratch/users/sastocke/2Dslicesfor3D/checkpoints/"
     # opt.label_dir = "/scratch/users/fwkong/SharedData/Synthesized_correction_128"
     # opt.image_dir = "/scratch/users/sastocke/data/data/testresample128normed"
@@ -75,7 +75,7 @@ for i, data_i in enumerate(dataloader):
     img.CopyInformation(ref_img)
     path = data_i['gtname'][0]
     imgNr, r_Nr= extract_filename(path)
-    filename = f"3DImage{name}{imgNr}{r_Nr}Synthetic.nii.gz"
+    filename = os.path.basename(data_i['gtname'][0])
     sitk.WriteImage(img, os.path.join(opt.results_dir, filename))
     print(f'saved image: {filename}')
 
