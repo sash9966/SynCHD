@@ -8,7 +8,7 @@ from trainers.pix2pix_trainer import Pix2PixTrainer
 from util.util import plot_viewpoint_slices
 import SimpleITK as sitk
 from tqdm import tqdm
-
+import torch
 import os
 from util import html
 print(f'os.getcwd: {os.getcwd}')
@@ -70,10 +70,12 @@ for epoch in iter_counter.training_epochs():
     for i, data_i in enumerate(tqdm(dataloader, desc=f"Epoch {epoch} for {opt.name}, running on GPU: {opt.gpu_ids}"), start=iter_counter.epoch_iter):
 
 
+        print(f'Memory allocated before data loading: {torch.cuda.memory_allocated() / 1e9} GB')
+        
 
         iter_counter.record_one_iteration()
 
-
+        print(f'Memory reserved after iter_counter one iteration data loading: {torch.cuda.memory_reserved() / 1e9} GB')
         # Training
         # train generator
         if i % opt.D_steps_per_G == 0:
@@ -81,7 +83,7 @@ for epoch in iter_counter.training_epochs():
 
         # train discriminator
         trainer.run_discriminator_one_step(data_i)
-
+        print(f'Memory reserved before data loading: {torch.cuda.memory_reserved() / 1e9} GB')
 
         # Visualizations
         if iter_counter.needs_printing():
@@ -119,6 +121,7 @@ for epoch in iter_counter.training_epochs():
                   (epoch, iter_counter.total_steps_so_far))
             trainer.save('latest')
 
+        print(f'End of learning ..: {torch.cuda.memory_reserved() / 1e9} GB')
 
 
     trainer.update_learning_rate(epoch)
