@@ -50,14 +50,14 @@ class Mms1acdcBBDataset(BaseDataset):
         #                     help='path to the directory that contains label images')
         # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/data/testimages128" ,
         #                      help='path to the directory that contains photo images')
-        # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/2Dslicesfor3D/data/images/",
+        # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/2Dslicesfor3D/data/masks",
         #                     help='path to the directory that contains label images')
-        # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/masks/" ,
+        # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/normimages" ,
         #                     help='path to the directory that contains photo images')
         
-        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only_128",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img128",
+        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/img",
                             help='path to the directory that contains photo images')
         
         # parser.add_argument('--label_dir_B', type=str, required=False, default = "/Users/saschastocker/Desktop/Data/StyleTransfer/segmentationTestFullResolution",

@@ -675,68 +675,48 @@ class StyleSPADE3DGenerator(BaseNetwork):
 
     def forward(self, input, image, input_dist=None):
         #print(f'#############################')
-        #print(f'start of one forward pass:')
+
         
         seg = input
         image = image
         nf = self.opt.ngf
         bs = self.opt.batchSize
 
-        # print(f'nf : {nf}')
-
-        # print(f' image shape: {image.shape}')
-        # print(f'segmentaiton shape: {seg.shape}')
         image = image.unsqueeze(1)
-        
-        #print(f'shapes image: {image.shape}, seg: {seg.shape}')
-        # seg = seg.permute(0, 1, 4, 2,3 ) # This reorders the dimensions to (Batch, Channel, Depth, Height, Width)
-        # image = image.permute(0, 1, 4, 2, 3) # This reorders the dimensions to (Batch, Channel, Depth, Height, Width
+    
         depth= seg.shape[2]
-        # print(f'depth: {depth}')
-        # print(f' image after unsqueeze and permutation: {image.shape}') 
-        # print(f'segmentation: {seg.shape}')
-        #summary(self.model, (1, 1, 3,512,512))
         x = self.model(image)
-        # print(f'x shape after self.model(image): {x.shape}')
 
         
-        #self.opt.ngf = 16
         x = x.view(x.size(0), -1)
         x = self.fc_img(x)
-        # print(f'x shape after fc_img: {x.shape}')
+
         x = self.fc_img2(x)
 
-        # print(f'x shape after fc_img2 : {x.shape}')
+
         x = x.view(bs, -1, 8, 8, 8)  # reshaping to have depth dimension again
   
-
-
-        # print(f'x shape after view: {x.shape}')
-        # print(f'seg shape: {seg.shape}')
-        # print(f'input_dist shape: {input_dist.shape}')
         x = self.head_0(x, seg, input_dist)
-        #print(f'x after head_0: {x.shape}')
 
         x = self.G_middle_0(x, seg, input_dist)
-        #print(f'x after G_middle_0: {x.shape}')
 
 
         x = self.up(x)
-        #print(f'x after up: {x.shape}')
+
         x = self.up_0(x, seg, input_dist)
-        #print(f'x after up_0: {x.shape}')
+
         x = self.up(x)
-        ##print(f'x after up: {x.shape}')
+
         x = self.up_1(x, seg, input_dist)
-        #print(f'x after up_1: {x.shape}')
+
         x = self.up(x)
-        ##print(f'x after up: {x.shape}')
+
         x = self.up_2(x, seg, input_dist)
-        #print(f'x after up_2: {x.shape}')
+
         x = self.up(x)
-        #print(f'x after up: {x.shape}')
+
         x = self.up_3(x, seg, input_dist)
-        #print(f'x after up_3: {x.shape}')
+
 
         if self.opt.num_upsampling_layers == 'most':
             x = self.up(x)
@@ -749,6 +729,101 @@ class StyleSPADE3DGenerator(BaseNetwork):
 
         x = self.conv_img(F.leaky_relu(x, 2e-1))
         
-        ##print(f'#############################')
-        #print(f'end of forward pass:')
+
+        return x
+
+
+
+
+class SPADE3DGenerator(BaseNetwork):
+    @staticmethod
+    def modify_commandline_options(parser, is_train):
+        parser.set_defaults(norm_G='spectralspadesyncbatch3x3')
+        parser.add_argument('--num_upsampling_layers',
+                            choices=('few', 'normal', 'more', 'most', 'most512'), default='normal',
+                            help="If 'more', adds upsampling layer between the two middle resnet blocks. If 'most', also add one more upsampling + resnet layer at the end of the generator")
+        return parser
+
+    def __init__(self, opt):
+        super().__init__()
+        self.opt = opt
+        nf = opt.ngf
+
+
+        self.fc = nn.Conv3d(self.opt.semantic_nc, 16 * nf, 3, padding=1)
+
+        self.head_0 = SPADEResnetBlock(16 * nf, 16 * nf, opt)
+
+        self.G_middle_0 = SPADEResnetBlock(16 * nf, 16 * nf, opt)
+        self.G_middle_1 = SPADEResnetBlock(16 * nf, 16 * nf, opt)
+
+        self.up_0 = SPADEResnetBlock(16 * nf, 8 * nf, opt)
+        self.up_1 = SPADEResnetBlock(8 * nf, 4 * nf, opt)
+        self.up_2 = SPADEResnetBlock(4 * nf, 2 * nf, opt)
+        self.up_3 = SPADEResnetBlock(2 * nf, 1 * nf, opt)
+
+        final_nc = nf
+
+        if opt.num_upsampling_layers == 'most':
+            self.up_4 = SPADEResnetBlock(1 * nf, nf // 2, opt)
+            final_nc = nf // 2
+        if opt.num_upsampling_layers == 'most512':
+            self.up_4 = SPADEResnetBlock(1 * nf, nf // 2, opt)
+            final_nc = nf // 2
+            self.up_5 = SPADEResnetBlock(nf // 2, nf // 4, opt)
+            final_nc = nf // 4
+
+        self.conv_img = nn.Sequential(
+            nn.Conv3d(final_nc, opt.output_nc, 3, padding=1),
+            nn.Tanh()
+        )
+
+        self.up = nn.Upsample(scale_factor=(2, 2, 2), mode='trilinear')
+
+
+
+
+
+    def forward(self, input, input_dist=None):
+        sw = self.opt.crop_size // (2 ** 5)
+        sh = round(sw / self.opt.aspect_ratio)
+        sd = round(221 // (2 ** 5))
+        print('forward of 3D Gen no Styleencoding!')
+        seg = input
+
+        x = F.interpolate(seg, size=(sd, sh, sw))
+        x = self.fc(x)
+
+        x = self.head_0(x, seg, input_dist)
+
+        if self.opt.num_upsampling_layers != 'few':
+            x = self.up(x)
+            x = self.G_middle_0(x, seg, input_dist)
+
+        if self.opt.num_upsampling_layers == 'more' or \
+           self.opt.num_upsampling_layers == 'most':
+            x = self.up(x)
+
+        x = self.G_middle_1(x, seg, input_dist)
+
+        x = self.up(x)
+        x = self.up_0(x, seg, input_dist)
+        x = self.up(x)
+        x = self.up_1(x, seg, input_dist)
+        x = self.up(x)
+        x = self.up_2(x, seg, input_dist)
+        x = self.up(x)
+        x = self.up_3(x, seg, input_dist)
+
+        if self.opt.num_upsampling_layers == 'most':
+            x = self.up(x)
+            x = self.up_4(x, seg, input_dist)
+        if self.opt.num_upsampling_layers == 'most512':
+            x = self.up(x)
+            x = self.up_4(x, seg, input_dist)
+            x = self.up(x)
+            x = self.up_5(x, seg, input_dist)
+
+        x = self.conv_img(F.leaky_relu(x, 2e-1))
+
         return x

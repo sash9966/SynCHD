@@ -50,7 +50,6 @@ class SPADEResnetBlock(nn.Module):
 
         # define normalization layers
         spade_config_str = opt.norm_G.replace('spectral', '')
-        print(f'spade_config_str: {spade_config_str}')
         if opt.norm_mode == 'spade':
             self.norm_0 = SPADE(spade_config_str, fin, opt.semantic_nc)
             self.norm_1 = SPADE(spade_config_str, fmiddle, opt.semantic_nc)
