@@ -12,6 +12,7 @@ import torch
 import os
 from util import html
 print(f'os.getcwd: {os.getcwd}')
+os.environ["CUDA_LAUNCH_BLOCKING"] = "1"
 ospath= os.getcwd()
 
 if (ospath == "/home/sastocke/2Dslicesfor3D"):
