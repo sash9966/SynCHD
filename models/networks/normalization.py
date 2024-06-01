@@ -73,10 +73,11 @@ class SPADE3D(nn.Module):
         #print(f'spade3d is called')
         assert config_text.startswith('spade')
         parsed = re.search('spade(\D+)(\d)x\d', config_text)
+        print(f'parsed: {parsed}')
         param_free_norm_type = str(parsed.group(1))
     
         ks = int(parsed.group(2))
-
+        print(f'ks: {ks}')
         if param_free_norm_type == 'instance':
             self.param_free_norm = nn.InstanceNorm3d(norm_nc, affine=False)
         elif param_free_norm_type == 'syncbatch':

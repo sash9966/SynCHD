@@ -787,13 +787,10 @@ class SPADE3DGenerator(BaseNetwork):
     def forward(self, input, input_dist=None):
         sw = self.opt.crop_size // (2 ** 5)
         sh = round(sw / self.opt.aspect_ratio)
-        sd = round(221 // (2 ** 5))
-        print('forward of 3D Gen no Styleencoding!')
         seg = input
 
-        x = F.interpolate(seg, size=(sd, sh, sw))
+        x = F.interpolate(seg, size=(sh, sh, sw))
         x = self.fc(x)
-
         x = self.head_0(x, seg, input_dist)
 
         if self.opt.num_upsampling_layers != 'few':
@@ -807,13 +804,19 @@ class SPADE3DGenerator(BaseNetwork):
         x = self.G_middle_1(x, seg, input_dist)
 
         x = self.up(x)
+
         x = self.up_0(x, seg, input_dist)
         x = self.up(x)
         x = self.up_1(x, seg, input_dist)
+
         x = self.up(x)
+
         x = self.up_2(x, seg, input_dist)
+
         x = self.up(x)
+
         x = self.up_3(x, seg, input_dist)
+       
 
         if self.opt.num_upsampling_layers == 'most':
             x = self.up(x)
@@ -825,5 +828,4 @@ class SPADE3DGenerator(BaseNetwork):
             x = self.up_5(x, seg, input_dist)
 
         x = self.conv_img(F.leaky_relu(x, 2e-1))
-
         return x

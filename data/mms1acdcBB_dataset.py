@@ -50,15 +50,15 @@ class Mms1acdcBBDataset(BaseDataset):
         #                     help='path to the directory that contains label images')
         # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/data/testimages128" ,
         #                      help='path to the directory that contains photo images')
-        # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/2Dslicesfor3D/data/masks",
-        #                     help='path to the directory that contains label images')
-        # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/normimages" ,
-        #                     help='path to the directory that contains photo images')
-        
-        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/128resdata/mask",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img",
+        parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/data/128resdata/image" ,
                             help='path to the directory that contains photo images')
+        
+        # parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only",
+        #                     help='path to the directory that contains label images')
+        # parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img",
+        #                     help='path to the directory that contains photo images')
         
         # parser.add_argument('--label_dir_B', type=str, required=False, default = "/Users/saschastocker/Desktop/Data/StyleTransfer/segmentationTestFullResolution",
         #                     help='path to the directory that contains label images')
@@ -173,7 +173,7 @@ class Mms1acdcBBDataset(BaseDataset):
                 # cmr_tran.RandomRotation(p=0.5),
                 
                 cmr_tran.ToTensor(),
-                #cmr_tran.NormalizeInstance3D(range=(-1,1), percentiles=(1,99)),
+                cmr_tran.NormalizeInstance3D(range=(-1,1), percentiles=(1,99)),
                 # cmr_tran.NormalizeMinMaxRange(range=(-1,1)),
                 
 
