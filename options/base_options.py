@@ -33,7 +33,7 @@ class BaseOptions():
         parser.add_argument('--phase', type=str, default='train', help='train, val, test, etc')
 
         # input/output sizes
-        parser.add_argument('--batchSize', type=int, default=2, help='input batch size')
+        parser.add_argument('--batchSize', type=int, default=4, help='input batch size')
         parser.add_argument('--preprocess_mode', type=str, default='scale_width_and_crop', help='scaling and cropping of images at load time.', choices=("resize_and_crop", "crop", "scale_width", "scale_width_and_crop", "scale_shortside", "scale_shortside_and_crop", "fixed", "none"))
         parser.add_argument('--load_size', type=int, default=256, help='Scale images to this size. The final image will be cropped to --crop_size.')
         parser.add_argument('--crop_size', type=int, default=128, help='Crop to the width of crop_size (after initially scaling the images to load_size.)')
