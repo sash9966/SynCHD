@@ -349,7 +349,6 @@ class Pix2PixModel(torch.nn.Module):
 
             fake_image = self.netG(input_semantics, real_image, input_dist=input_dist)
         elif self.opt.netG == 'spade3d':
-
             fake_image = self.netG(input_semantics, input_dist=input_dist)
             if self.opt.phase == 'train':
                 L1_loss = self.L1Loss(fake_image[0,:,:,:], real_image ) * self.opt.lambda_L1
