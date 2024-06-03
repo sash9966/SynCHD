@@ -173,19 +173,7 @@ class Pix2PixModel(torch.nn.Module):
             input_label_volume = input_label[..., i]
             #print(f'input_label_volume shape: {input_label_volume.shape}')
             label_map_volume = label_map[..., i].unsqueeze(1)
-            # print(f'label_map_volume shape: {label_map_volume.shape}')
-            # print(f'unique values in the tensor: {torch.unique(label_map_volume)}')
-            # print(torch.isnan(input_label_volume).any())
-            # print(torch.isinf(input_label_volume).any())
-            # print("Max index: ", label_map_volume.max())
-            # print("Min index: ", label_map_volume.min())
-            # print("Input label volume shape: ", input_label_volume.shape)
-            # print("Label map volume shape: ", label_map_volume.shape)
-            # Perform the scatter operation on the 3D slice
-            print("input_label_volume shape:", input_label_volume.shape)
-            print("label_map_volume shape:", label_map_volume.shape)
-            print("label_map_volume min value:", label_map_volume.min().item())
-            print("label_map_volume max value:", label_map_volume.max().item())
+
 
             input_semantics_volume = input_label_volume.scatter_(1, label_map_volume.clamp(max=7), 1.0)
             #print(f'input_semantics_volume shape after scatter: {input_semantics_volume.shape}')
