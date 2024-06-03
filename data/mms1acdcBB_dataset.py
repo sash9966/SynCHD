@@ -57,7 +57,7 @@ class Mms1acdcBBDataset(BaseDataset):
         
         parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only_128",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img128",
+        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/img_128",
                             help='path to the directory that contains photo images')
         
         # parser.add_argument('--label_dir_B', type=str, required=False, default = "/Users/saschastocker/Desktop/Data/StyleTransfer/segmentationTestFullResolution",
@@ -147,10 +147,8 @@ class Mms1acdcBBDataset(BaseDataset):
                 #cmr_tran.RandomRotation90(p=0.7),
                 
                 cmr_tran.ToTensor(),
-                #cmr_tran.NormalizeMinMaxpercentile3D(range=(-1,1), percentiles=(1,99)),
                 # cmr_tran.NormalizeLabel(),
                 # cmr_tran.NormalizeMinMaxRange(range=(-1,1)),
-                
                 # cmr_tran.PercentileBasedRescaling(out_min_max=(-1,1), percentiles=(1,99)),  #TODO: make sure the normalization is performed on the volume data not slice-by-slice
                 # cmr_tran.RandomElasticTorchio(num_control_points  = (8, 8, 4), max_displacement  = (20, 20, 0), p=0.5),
                 # cmr_tran.ClipScaleRange(min_intensity= 0, max_intensity=1),
@@ -161,6 +159,7 @@ class Mms1acdcBBDataset(BaseDataset):
                 cmr_tran.DataAugmentation3D(opt),
                 # cmr_tran.RandomHorizontalFlip2D(p=0.7),
                 # cmr_tran.RandomVerticalFlip2D(p=0.7),
+                cmr_tran.NormalizeMinMaxpercentile3D(range=(-1,1), percentiles=(1,99)),
                 cmr_tran.UpdateLabels(source=TR_CLASS_MAP_MMS_SRS, destination=TR_CLASS_MAP_MMS_DES)
 
             ])

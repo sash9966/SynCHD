@@ -286,24 +286,30 @@ class DataAugmentation3D(MTTransform):
         )
 
         transforms = [
-            tio.RandomAffine(scales=(0.9, 1.1), degrees=(10, 10, 10)),
+            tio.RandomAffine(scales=(0.8, 1.0), degrees=(10, 10, 10)),
             tio.RandomElasticDeformation(),
-            tio.RandomFlip(axes=(0, 1, 2))
+            tio.RandomGamma(log_gamma=(0.8, 1.2)),
+            tio.RandomFlip(axes=(0, 1, 2)),
+
+
+
+
         ]
 
+
         # RandomAffine for zooming, but only focusing on smaller mask, larger does not seem to be a problem... want to avoid copying of anything but background
-        zoom_transform = tio.RandomAffine(scales=(0.7, 0.9), degrees=(10, 10, 10))
+        # zoom_transform = tio.RandomAffine(scales=(0.7, 0.9), degrees=(10, 10, 10))
 
-        # Randomly decide whether to apply zoom to image, mask, or both
+        # # Randomly decide whether to apply zoom to image, mask, or both
 
-        if(self.opt.random_zoom):
-            #apply_to_image = random.choice([True, False])
-            apply_to_mask = random.choice([True, False])
+        # if(self.opt.random_zoom):
+        #     #apply_to_image = random.choice([True, False])
+        #     apply_to_mask = random.choice([True, False])
 
-            # if apply_to_image:
-            #     input_data = zoom_transform(input_data)
-            if apply_to_mask:
-                gt_data = zoom_transform(gt_data)
+        #     # if apply_to_image:
+        #     #     input_data = zoom_transform(input_data)
+        #     if apply_to_mask:
+        #         gt_data = zoom_transform(gt_data)
 
         transform = tio.Compose(transforms)
         transformed_subject = transform(subject)
