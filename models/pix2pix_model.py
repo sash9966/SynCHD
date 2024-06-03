@@ -182,6 +182,11 @@ class Pix2PixModel(torch.nn.Module):
             # print("Input label volume shape: ", input_label_volume.shape)
             # print("Label map volume shape: ", label_map_volume.shape)
             # Perform the scatter operation on the 3D slice
+            print("input_label_volume shape:", input_label_volume.shape)
+            print("label_map_volume shape:", label_map_volume.shape)
+            print("label_map_volume min value:", label_map_volume.min().item())
+            print("label_map_volume max value:", label_map_volume.max().item())
+
             input_semantics_volume = input_label_volume.scatter_(1, label_map_volume.clamp(max=7), 1.0)
             #print(f'input_semantics_volume shape after scatter: {input_semantics_volume.shape}')
             # Add an extra dimension for concatenation
