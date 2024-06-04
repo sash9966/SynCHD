@@ -324,11 +324,12 @@ class Pix2PixModel(torch.nn.Module):
         return z, mu, logvar, xout
 
     def generate_fake(self, input_semantics, real_image, input_dist, compute_kld_loss=False):
+
         z = None
         KLD_loss = None
         L1_loss = None
         if self.opt.use_vae:
-            print(f'using VAE')
+
             z, mu, logvar, xout = self.encode_z(real_image)
             if compute_kld_loss:
                 KLD_loss = self.KLDLoss(mu, logvar) * self.opt.lambda_kld
@@ -342,6 +343,7 @@ class Pix2PixModel(torch.nn.Module):
 
             fake_image = self.netG(input_semantics, real_image, input_dist=input_dist)
         elif self.opt.netG == 'spade3d':
+
             fake_image = self.netG(input_semantics, input_dist=input_dist)
             if self.opt.phase == 'train':
                 L1_loss = self.L1Loss(fake_image[0,:,:,:], real_image ) * self.opt.lambda_L1

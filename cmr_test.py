@@ -76,7 +76,7 @@ for i, data_i in enumerate(dataloader):
     path = data_i['gtname'][0]
     imgNr, r_Nr= extract_filename(path)
     filename = f"3DImage{name}{imgNr}{r_Nr}Synthetic.nii.gz"
-    sitk.WriteImage(img, os.path.join(opt.results_dir, filename))
+    sitk.WriteImage(img, os.path.join(opt.checkpoints_dir, opt.name,opt.results_dir, filename))
     print(f'saved image: {filename}')
 
     

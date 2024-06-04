@@ -591,6 +591,7 @@ class StyleSPADE3DGenerator(BaseNetwork):
         if self.opt.crop_size == 256:
             in_fea = 2 * 16
             self.opt.num_upsampling_layers = 'most'
+            print(f'most upsampling layers')
         if self.opt.crop_size == 512:
             in_fea = 4 * 16
             self.opt.num_upsampling_layers = 'most512'
