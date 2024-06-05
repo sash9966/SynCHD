@@ -15,7 +15,7 @@ ospath= os.getcwd()
 
 if (ospath == "/home/sastocke/2Dslicesfor3D"):
     opt = TestOptions().parse()
-    ref_img = sitk.ReadImage('/home/sastocke/data/testimages128/ct_1129_image.nii.gz')
+    ref_img = sitk.ReadImage('/home/sastocke/data/testimages128/ct_1001_image.nii.gz')
     name = opt.name
     web_dir = os.path.join(opt.results_dir, opt.name,
                        '%s_%s' % (opt.phase, opt.which_epoch))
@@ -71,7 +71,7 @@ for i, data_i in enumerate(dataloader):
     print(f'shape of generated: {generated.shape}')
     img_numpy = generated[0,0,:,:,:]
     ## Could be 2,1,0 -> check transpose and what it does to spacing in slicer
-    img_numpy_transposed = img_numpy.transpose(2,1,0)
+    img_numpy_transposed = img_numpy.transpose(0,2,1)
     img = sitk.GetImageFromArray(img_numpy_transposed)
     img.CopyInformation(ref_img)
     path = data_i['gtname'][0]

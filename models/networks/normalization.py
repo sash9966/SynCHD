@@ -90,7 +90,8 @@ class SPADE3D(nn.Module):
                              % param_free_norm_type)
 
         # The dimension of the intermediate embedding space. Yes, hardcoded.
-        nhidden = 128
+        #Testing the hidden layer size and how to change it regarding 3D -> lower res image/mask so less? or 3D structure so more layers
+        nhidden = 256
 
         pw = ks // 2
         self.mlp_shared = nn.Sequential(

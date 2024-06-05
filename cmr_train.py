@@ -17,7 +17,7 @@ ospath= os.getcwd()
 if (ospath == "/home/sastocke/2Dslicesfor3D"):
     print(f'On local path!')
     opt = TrainOptions().parse()
-    ref_img = sitk.ReadImage('/home/sastocke/data/testimages128/ct_1129_image.nii.gz')
+    ref_img = sitk.ReadImage('/home/sastocke/data/testimages128/ct_1001_image.nii.gz')
     name_of_try = opt.name
     web_dir = os.path.join(opt.checkpoints_dir, opt.name,
                        '%s_%s' % (opt.phase, opt.which_epoch))
