@@ -70,7 +70,8 @@ for i, data_i in enumerate(dataloader):
 
     print(f'shape of generated: {generated.shape}')
     img_numpy = generated[0,0,:,:,:]
-    img_numpy_transposed = img_numpy.transpose(0,2,1)
+    ## Could be 2,1,0 -> check transpose and what it does to spacing in slicer
+    img_numpy_transposed = img_numpy.transpose(2,1,0)
     img = sitk.GetImageFromArray(img_numpy_transposed)
     img.CopyInformation(ref_img)
     path = data_i['gtname'][0]
