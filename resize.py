@@ -138,8 +138,8 @@ def resample_spacing(sitkIm,output_folder,resolution=0.5, dim=3, template_size=(
 
 
 if __name__ == '__main__':
-    input_folder = "/scratch/users/fwkong/CHD/imageCHDCleanedOriginal_aligned_all/aligned/img_pre_imgchd"
-    output_folder = "/scratch/users/fwkong/SharedData/randomStyle128"
+    input_folder = "/scratch/users/sastocke/data/trainingdata/masks"
+    output_folder = "/scratch/users/sastocke/data/training128/masks"
     # Create the output folder if it doesn't existsast
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)  
