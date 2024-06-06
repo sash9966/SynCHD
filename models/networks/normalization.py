@@ -67,7 +67,7 @@ def get_nonspade_norm_layer(opt, norm_type='instance'):
 
 #### Adjusted prompt via chatGPT to extend SPADE to 3D
 class SPADE3D(nn.Module):
-    def __init__(self, config_text, norm_nc, label_nc):
+    def __init__(self, config_text, norm_nc, label_nc, nhidden=256):
         super().__init__()
 
         #print(f'spade3d is called')
@@ -91,7 +91,7 @@ class SPADE3D(nn.Module):
 
         # The dimension of the intermediate embedding space. Yes, hardcoded.
         #Testing the hidden layer size and how to change it regarding 3D -> lower res image/mask so less? or 3D structure so more layers
-        nhidden = 256
+        nhidden = nhidden
 
         pw = ks // 2
         self.mlp_shared = nn.Sequential(
