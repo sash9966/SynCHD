@@ -50,9 +50,9 @@ class Mms1acdcBBDataset(BaseDataset):
         #                     help='path to the directory that contains label images')
         # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/data/testimages128" ,
         # #                      help='path to the directory that contains photo images')
-        parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/128resdata/mask",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/2Dslicesfor3D/data/masks256",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/data/128resdata/image" ,
+        parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/images256" ,
                              help='path to the directory that contains photo images')
         
         # parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only_128",
