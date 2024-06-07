@@ -62,7 +62,7 @@ class SPADEResnetBlock(nn.Module):
             if self.learned_shortcut:
                 self.norm_s = SPADELight(spade_config_str, fin, input_nc, opt.no_instance, opt.add_dist)
         elif opt.norm_mode == 'spade3d':
-            self.norm_0 = SPADE3D(spade_config_str, fin, opt.semantic_nc.opt.nhidden)
+            self.norm_0 = SPADE3D(spade_config_str, fin, opt.semantic_nc, opt.nhidden)
             self.norm_1 = SPADE3D(spade_config_str, fmiddle, opt.semantic_nc,opt.nhidden)
             if self.learned_shortcut:
                 self.norm_s = SPADE3D(spade_config_str, fin, opt.semantic_nc,opt.nhidden)
