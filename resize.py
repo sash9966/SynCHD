@@ -138,9 +138,8 @@ def resample_spacing(sitkIm,output_folder,resolution=0.5, dim=3, template_size=(
 
 
 if __name__ == '__main__':
-    input_folder = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only"  # Replace with the path to your folder containing original NIfTI files
-    output_folder = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only_128"  # Replace with the path where you want to save the resized NIfTI files
-
+    input_folder = "/scratch/users/sastocke/data/trainingdata/masks"
+    output_folder = "/scratch/users/sastocke/data/training128/masks"
     # Create the output folder if it doesn't existsast
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)  

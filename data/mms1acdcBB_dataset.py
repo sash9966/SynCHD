@@ -13,6 +13,7 @@ import util.cmr_dataloader as cmr
 import util.cmr_transform as cmr_tran
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
+import glob
 
 
 TR_CLASS_MAP_MMS_SRS= {'LV': 0,'RV': 1, 'LA': 2,'RA': 3, 'Myo' : 4, 'Aorta':5,'Pulminary' : 6, 'Background':7 }
@@ -78,25 +79,32 @@ class Mms1acdcBBDataset(BaseDataset):
         To prepare and get the list of files
         """
 
+        print(f'opt.label_dir: {opt.label_dir}')
+        print(f'opt.image_dir: {opt.image_dir}')
         
-        SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
 
         if(opt.phase == 'test'):
+        # check if exists:
+            SA_mask_list = []
+
+            if not os.path.exists(os.path.join(opt.results_dir, os.path.basename(opt.label_dir))):
+                SA_mask_list.append(opt.label_dir)
             #For test we will generate images with different mask but paired with one patient image for the background.
-            single_image = os.listdir(os.path.join(opt.image_dir))[0]
+            single_image = opt.image_dir
             SA_image_list = [single_image] * len(SA_mask_list)
-            #print(f'length of SA_image_list: {len(SA_image_list)}')
-            #print(f'length of SA_mask_list: {len(SA_mask_list)}')
+            print(f'length of SA_image_list: {len(SA_image_list)}')
+            print(f'length of SA_mask_list: {len(SA_mask_list)}')
         else:
-            SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
+            SA_mask_list = sorted(os.listdir(opt.label_dir))
+            SA_image_list = sorted(os.listdir(opt.image_dir))
 
         # SA_image_list_B = sorted(os.listdir(os.path.join(opt.image_dir_B)))
         # SA_mask_list_B = sorted(os.listdir(os.path.join(opt.label_dir_B)))
 
         #pathologies = sorted(os.listdir(os.path.join(opt.acdc_dir)))
         
-        #print(f'length of SA_image_list: {len(SA_image_list)}')
-        #print(f'length of SA_mask_list: {len(SA_mask_list)}')
+        print(f'length of SA_image_list: {len(SA_image_list)}')
+        print(f'length of SA_mask_list: {len(SA_mask_list)}')
 
 
 
@@ -123,7 +131,7 @@ class Mms1acdcBBDataset(BaseDataset):
         self.filename_pairs = SA_filename_pairs
 
 
-
+        print(f'len of filename pairs: {len(self.filename_pairs)}')
         return self.filename_pairs, self.img_list, self.msk_list
 
 
