@@ -20,7 +20,7 @@ class BaseOptions():
 
     def initialize(self, parser):
         # experiment specifics
-        parser.add_argument('--name', type=str, default='SherlockBS2Epoch100DataX10NoUnetLoss3Dsynchbach', help='name of the experiment. It decides where to store samples and models')
+        parser.add_argument('--name', type=str, default='TrainingFullBS2Epoch100DataX10NoUnetLoss3Dsynchbach', help='name of the experiment. It decides where to store samples and models')
 
         parser.add_argument('--voxel_size', type=int, default=128, help='three dimentinoal voxel size, 0 for just 2D slices, 1 or more for additional slices')
         parser.add_argument('--is_3D', action='store_true', help='if specified, use 3D model.')
