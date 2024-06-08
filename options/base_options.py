@@ -20,7 +20,7 @@ class BaseOptions():
 
     def initialize(self, parser):
         # experiment specifics
-        parser.add_argument('--name', type=str, default='NoStyleHalfTraining', help='name of the experiment. It decides where to store samples and models')
+        parser.add_argument('--name', type=str, default='NoStyleHalfTrainingNgf32Hidden128', help='name of the experiment. It decides where to store samples and models')
 
         parser.add_argument('--voxel_size', type=int, default=128, help='three dimentinoal voxel size, 0 for just 2D slices, 1 or more for additional slices')
         parser.add_argument('--is_3D', action='store_true', help='if specified, use 3D model.')
@@ -64,13 +64,13 @@ class BaseOptions():
         # for generator
         parser.add_argument('--netG', type=str, default='spade3d', help='selects model to use for netG (pix2pixhd | spade | stylespade | stylespade3d | spade3d)')
         ## ngf default 16, lowering to 4 for faster loading..
-        parser.add_argument('--ngf', type=int, default=16, help='# of gen filters in first conv layer')
+        parser.add_argument('--ngf', type=int, default=32, help='# of gen filters in first conv layer')
         parser.add_argument('--init_type', type=str, default='xavier', help='network initialization [normal|xavier|kaiming|orthogonal]')
         parser.add_argument('--init_variance', type=float, default=0.02, help='variance of the initialization distribution')
         parser.add_argument('--z_dim', type=int, default=512, help="dimension of the latent z vector")
         parser.add_argument('--norm_mode', type=str, default='spade3d', help='[spade | clade | spade3d]')
         parser.add_argument('--add_dist', action='store_true', help='if specified, use additional intra-class positional encoding map')
-        parser.add_argument('--nhidden', default=256, help='nhidden for the normalization layer of the SPADE normalisation. Hardcoded in original paper, increasing for 3D case for higher complexity ')
+        parser.add_argument('--nhidden', default=128, help='nhidden for the normalization layer of the SPADE normalisation. Hardcoded in original paper, increasing for 3D case for higher complexity ')
 
         # for style generator
         parser.add_argument('--resnet_n_downsample', type=int, default=4, help='number of downsampling layers in netG')
