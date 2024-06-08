@@ -46,9 +46,9 @@ class Mms1acdcBBDataset(BaseDataset):
         
 
        #For testing
-        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/sastocke/data/training128/masks",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/sastocke/data/training128/halfmasks",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/sastocke/data/training128/images" ,
+        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/sastocke/data/training128/halfimages" ,
                              help='path to the directory that contains photo images')
         # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/128resdata/mask",
         #                     help='path to the directory that contains label images')
