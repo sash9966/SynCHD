@@ -19,8 +19,7 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
     name = opt.name
     web_dir = os.path.join(opt.results_dir, opt.name,
                        '%s_%s' % (opt.phase, opt.which_epoch))
-
-
+    result_folder = os.path.join(ospath, 'checkpoints', name, opt.results_dir)
     webpage = html.HTML(web_dir,
                         'Experiment = %s, Phase = %s, Epoch = %s' %
                         (opt.name, opt.phase, opt.which_epoch))
@@ -31,11 +30,10 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
     opt = TestOptions().parse()
     ref_img = sitk.ReadImage("/scratch/users/sastocke/data/training128/images/ct_1001_image.nii.gz")
-    checkpoints = opt.checkpoints_dir 
     name = opt.name
 
 
-    result_folder = os.path.join(ospath, checkpoints, name, opt.results_dir)
+    result_folder = os.path.join(ospath, 'checkpoints', name, opt.results_dir)
     if not os.path.exists(result_folder):
         os.makedirs(result_folder)
     

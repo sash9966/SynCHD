@@ -313,10 +313,10 @@ class SegmentationMask3D(object):
     def get_mask_volume(self):
         mask_data = self.get_mask_data()
 
-        mask_meta_dict = SampleMetadata({
+        mask_meta_dict = {
             "zooms": self.mask_handle.header.get_zooms(),
             "data_shape": self.mask_handle.header.get_data_shape(),
-        })
+        }
 
         return {
             "gt": mask_data,
@@ -336,8 +336,8 @@ class MRI3DSegmentationDatasetTestNoStyle(Dataset):
 
     def _load_masks(self):
         for mask_filename in self.mask_list:
-            segpair = SegmentationMask3D(mask_filename, self.cache, self.canonical)
-            self.handlers.append(segpair)
+            segmask = SegmentationMask3D(mask_filename, self.cache, self.canonical)
+            self.handlers.append(segmask)
 
     def set_transform(self, transform):
         self.transform = transform
@@ -346,15 +346,16 @@ class MRI3DSegmentationDatasetTestNoStyle(Dataset):
         return len(self.handlers)
 
     def __getitem__(self, index):
-        segpair = self.handlers[index]
-        pair_volume = segpair.get_mask_volume()
+        segmask = self.handlers[index]
+        mask_volume = segmask.get_mask_volume()
 
-        gt_volume = pair_volume["gt"]
+        gt_volume = mask_volume["gt"]
 
         data_dict = {
             'gt': gt_volume,
-            'gt_metadata': pair_volume['gt_metadata'],
-            'gtname': segpair.mask_filename,
+            'gt_metadata': mask_volume['gt_metadata'],
+            'filename': segmask.mask_filename,  # Ensure 'filename' key is included
+            'gtname': segmask.mask_filename,    # Include 'gtname' key
             'index': index,
         }
 

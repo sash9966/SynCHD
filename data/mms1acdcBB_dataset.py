@@ -87,10 +87,11 @@ class Mms1acdcBBDataset(BaseDataset):
         SA_mask_list = sorted(os.listdir(os.path.join(opt.label_dir)))
 
         if(opt.phase == 'test'):
-            #For test we will generate images with different mask but paired with one patient image for the background.
-            SA_image_list = os.listdir(os.path.join(opt.label_dir))[0]
-            #print(f'length of SA_image_list: {len(SA_image_list)}')
-            #print(f'length of SA_mask_list: {len(SA_mask_list)}')
+
+            
+            #hack to just ensure same length so we can use the same loader as with styleencoding...
+            SA_image_list = SA_mask_list
+
         else:
             SA_image_list = sorted(os.listdir(os.path.join(opt.image_dir)))
 
@@ -116,7 +117,8 @@ class Mms1acdcBBDataset(BaseDataset):
             if opt.phase == 'train':
                 SA_filename_pairs += [(os.path.join(opt.image_dir,SA_image_list[i]), os.path.join(opt.label_dir, SA_mask_list[i]))] * opt.multi_data
             elif opt.phase == 'test':
-                SA_filename_pairs += [(os.path.join(opt.image_dir,SA_image_list[i]), os.path.join(opt.label_dir, SA_mask_list[i]))]
+                #Workaround to use same dataloader for noStyle -> use the mask paths as images too.... otherwise img is expected and has to be replaced/handled differently everywhere
+                SA_filename_pairs += [(os.path.join(opt.label_dir,SA_mask_list[i]), os.path.join(opt.label_dir, SA_mask_list[i]))]
 
             else:
                 print(f'phase is not set to train or test!')
@@ -135,7 +137,7 @@ class Mms1acdcBBDataset(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         #print(f'filename pairs trying to be read from options: {self.opt}')
-        self.filename_pairs, _, self.mask_list  = self.get_paths(self.opt)
+        self.filename_pairs, _, _  = self.get_paths(self.opt)
         print(f'opt : {opt}')
 
 
@@ -167,7 +169,6 @@ class Mms1acdcBBDataset(BaseDataset):
                 cmr_tran.UpdateLabels(source=TR_CLASS_MAP_MMS_SRS, destination=TR_CLASS_MAP_MMS_DES)
 
             ])
-            self.cmr_dataset = cmr.MRI3DSegmentationDataset(self.filename_pairs, transform = train_transforms,  canonical = False)
         else:
             train_transforms = Compose([
                 # cmr_tran.Resample(self.opt.target_res,self.opt.target_res), #1.33
@@ -194,8 +195,12 @@ class Mms1acdcBBDataset(BaseDataset):
 
             ])
         
-            self.cmr_dataset = cmr.MRI3DSegmentationDatasetTestNoStyle(self.mask_list, transform = train_transforms,  canonical = False)
-    
+        #if(opt.phase == 'test'):
+            #self.cmr_dataset(cmr.MRI2DSegmentationDataset(self.msk_list, transform = train_transforms, slice_axis=2, canonical = False))
+
+        #self.cmr_dataset = cmr.MRI2DSegmentationDataset(self.filename_pairs,voxel_size = opt.voxel_size, transform = train_transforms, slice_axis=2,  canonical = False)
+        self.cmr_dataset = cmr.MRI3DSegmentationDataset(self.filename_pairs, transform = train_transforms,  canonical = False)
+        print(f'opt voxel size: {opt.voxel_size}, type: {type(opt.voxel_size)}, ')
 
         
         
