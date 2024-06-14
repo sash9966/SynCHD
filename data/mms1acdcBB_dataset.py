@@ -88,7 +88,6 @@ class Mms1acdcBBDataset(BaseDataset):
 
         if(opt.phase == 'test'):
             #For test we will generate images with different mask but paired with one patient image for the background.
-            single_image = os.listdir(os.path.join(opt.image_dir))[0]
             SA_image_list = os.listdir(os.path.join(opt.label_dir))[0]
             #print(f'length of SA_image_list: {len(SA_image_list)}')
             #print(f'length of SA_mask_list: {len(SA_mask_list)}')
@@ -136,7 +135,7 @@ class Mms1acdcBBDataset(BaseDataset):
     def initialize(self, opt):
         self.opt = opt
         #print(f'filename pairs trying to be read from options: {self.opt}')
-        self.filename_pairs, _, _  = self.get_paths(self.opt)
+        self.filename_pairs, _, self.mask_list  = self.get_paths(self.opt)
         print(f'opt : {opt}')
 
 
@@ -168,6 +167,7 @@ class Mms1acdcBBDataset(BaseDataset):
                 cmr_tran.UpdateLabels(source=TR_CLASS_MAP_MMS_SRS, destination=TR_CLASS_MAP_MMS_DES)
 
             ])
+            self.cmr_dataset = cmr.MRI3DSegmentationDataset(self.filename_pairs, transform = train_transforms,  canonical = False)
         else:
             train_transforms = Compose([
                 # cmr_tran.Resample(self.opt.target_res,self.opt.target_res), #1.33
@@ -194,12 +194,8 @@ class Mms1acdcBBDataset(BaseDataset):
 
             ])
         
-        #if(opt.phase == 'test'):
-            #self.cmr_dataset(cmr.MRI2DSegmentationDataset(self.msk_list, transform = train_transforms, slice_axis=2, canonical = False))
-
-        #self.cmr_dataset = cmr.MRI2DSegmentationDataset(self.filename_pairs,voxel_size = opt.voxel_size, transform = train_transforms, slice_axis=2,  canonical = False)
-        self.cmr_dataset = cmr.MRI3DSegmentationDataset(self.filename_pairs, transform = train_transforms,  canonical = False)
-        print(f'opt voxel size: {opt.voxel_size}, type: {type(opt.voxel_size)}, ')
+            self.cmr_dataset = cmr.MRI3DSegmentationDatasetTestNoStyle(self.mask_list, transform = train_transforms,  canonical = False)
+    
 
         
         

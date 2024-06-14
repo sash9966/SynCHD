@@ -288,6 +288,81 @@ class SegmentationPair3D(object):
             "gt_metadata": gt_meta_dict,
         }
 
+class SegmentationMask3D(object):
+    def __init__(self, mask_filename, cache=True, canonical=False):
+        self.mask_filename = mask_filename
+        self.canonical = canonical
+        self.cache = cache
+
+        self.mask_handle = nib.load(self.mask_filename)
+
+        if len(self.mask_handle.shape) > 3:
+            raise RuntimeError("4-dimensional volumes not supported.")
+
+        if self.canonical:
+            self.mask_handle = nib.as_closest_canonical(self.mask_handle)
+
+    def get_mask_shape(self):
+        return self.mask_handle.header.get_data_shape()
+
+    def get_mask_data(self):
+        cache_mode = 'fill' if self.cache else 'unchanged'
+        mask_data = self.mask_handle.get_fdata(cache_mode, dtype=np.float32)
+        return mask_data
+
+    def get_mask_volume(self):
+        mask_data = self.get_mask_data()
+
+        mask_meta_dict = SampleMetadata({
+            "zooms": self.mask_handle.header.get_zooms(),
+            "data_shape": self.mask_handle.header.get_data_shape(),
+        })
+
+        return {
+            "gt": mask_data,
+            "gt_metadata": mask_meta_dict,
+        }
+
+
+class MRI3DSegmentationDatasetTestNoStyle(Dataset):
+    def __init__(self, mask_list, cache=True, transform=None, canonical=False):
+        self.mask_list = mask_list
+        self.handlers = []
+        self.transform = transform
+        self.cache = cache
+        self.canonical = canonical
+
+        self._load_masks()
+
+    def _load_masks(self):
+        for mask_filename in self.mask_list:
+            segpair = SegmentationMask3D(mask_filename, self.cache, self.canonical)
+            self.handlers.append(segpair)
+
+    def set_transform(self, transform):
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.handlers)
+
+    def __getitem__(self, index):
+        segpair = self.handlers[index]
+        pair_volume = segpair.get_mask_volume()
+
+        gt_volume = pair_volume["gt"]
+
+        data_dict = {
+            'gt': gt_volume,
+            'gt_metadata': pair_volume['gt_metadata'],
+            'gtname': segpair.mask_filename,
+            'index': index,
+        }
+
+        if self.transform is not None:
+            data_dict = self.transform(data_dict)
+
+        return data_dict
+
 class MRI2DSegmentationDataset(Dataset):
     """This is a generic class for 2D (slice-wise) segmentation datasets.
 
