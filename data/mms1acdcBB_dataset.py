@@ -46,7 +46,7 @@ class Mms1acdcBBDataset(BaseDataset):
         
 
        #For testing
-        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/sastocke/data/training128/masks",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/paperSynInputMasks128",
                             help='path to the directory that contains label images')
         parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/sastocke/data/training128/images" ,
                              help='path to the directory that contains photo images')
@@ -89,7 +89,7 @@ class Mms1acdcBBDataset(BaseDataset):
         if(opt.phase == 'test'):
             #For test we will generate images with different mask but paired with one patient image for the background.
             single_image = os.listdir(os.path.join(opt.image_dir))[0]
-            SA_image_list = [single_image] * len(SA_mask_list)
+            SA_image_list = os.listdir(os.path.join(opt.label_dir))[0]
             #print(f'length of SA_image_list: {len(SA_image_list)}')
             #print(f'length of SA_mask_list: {len(SA_mask_list)}')
         else:
