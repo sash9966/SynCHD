@@ -59,9 +59,6 @@ visualizer = Visualizer(opt)
 # create a webpage that summarizes the all results
 
 
-#Registration try:
-
-
 print(f'length of dtalaoder: {len(dataloader)}')
 # test
 for i, data_i in enumerate(dataloader):
