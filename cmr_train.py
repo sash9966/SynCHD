@@ -56,26 +56,7 @@ iter_counter = IterationCounter(opt, len(dataloader))
 # create tool for visualization
 visualizer = Visualizer(opt)
 
-###Testing dataugemntation scheme.... contrast drift may occur because of the data augmentation
-def save_augmented_data(image, mask, save_dir, base_name, counter):
-    os.makedirs(save_dir, exist_ok=True)
-    
-    image_path = os.path.join(save_dir, f"{base_name}_{counter}_image.nii.gz")
-    mask_path = os.path.join(save_dir, f"{base_name}_{counter}_mask.nii.gz")
-    
-    # Convert tensors to numpy arrays
-    image_np = image.detach().cpu().numpy().squeeze()
-    mask_np = mask.detach().cpu().numpy().squeeze()
-    
-    # Save the image and mask using SimpleITK
-    sitk_image = sitk.GetImageFromArray(image_np)
-    sitk_mask = sitk.GetImageFromArray(mask_np)
-    
-    # Assuming the input images and masks are in the correct format
-    sitk.WriteImage(sitk_image, image_path)
-    sitk.WriteImage(sitk_mask, mask_path)
-save_dir = '/path/to/testaugmentation'  # Provide the path to the folder where you want to save the augmented data
-counter = 0 
+
 
 for epoch in iter_counter.training_epochs():
     print('epoch', epoch)
@@ -100,9 +81,6 @@ for epoch in iter_counter.training_epochs():
 
         # train discriminator
         trainer.run_discriminator_one_step(data_i)
-        for j in range(real_image.shape[0]):  # Assuming batch dimension
-            save_augmented_data(real_image[j], label[j], save_dir, "augmented_data", counter)
-            counter += 1
 
 
         # Visualizations
