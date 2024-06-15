@@ -288,7 +288,7 @@ class DataAugmentation3D(MTTransform):
         transforms = [
             tio.RandomAffine(scales=(0.8, 1.0), degrees=(10, 10, 10)),
             tio.RandomElasticDeformation(),
-            tio.RandomGamma(log_gamma=(0.8, 1.2)),
+            #tio.RandomGamma(log_gamma=(0.8, 1.2)),
             tio.RandomFlip(axes=(0, 1, 2)),
 
 
