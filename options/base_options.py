@@ -70,7 +70,7 @@ class BaseOptions():
         parser.add_argument('--z_dim', type=int, default=512, help="dimension of the latent z vector")
         parser.add_argument('--norm_mode', type=str, default='spade3d', help='[spade | clade | spade3d]')
         parser.add_argument('--add_dist', action='store_true', help='if specified, use additional intra-class positional encoding map')
-        parser.add_argument('--nhidden', default=256, help='nhidden for the normalization layer of the SPADE normalisation. Hardcoded in original paper, increasing for 3D case for higher complexity ')
+        parser.add_argument('--nhidden', default=128, help='nhidden for the normalization layer of the SPADE normalisation. Hardcoded in original paper, increasing for 3D case for higher complexity ')
 
         # for style generator
         parser.add_argument('--resnet_n_downsample', type=int, default=4, help='number of downsampling layers in netG')
