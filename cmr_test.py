@@ -30,12 +30,9 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 #Sherlock!
 elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
     opt = TestOptions().parse()
-    ref_img = sitk.ReadImage(opt.image_dir)
-    opt.checkpoints_dir = "/scratch/users/sastocke/2Dslicesfor3D/checkpoints/"
-    # opt.label_dir = "/scratch/users/fwkong/SharedData/Synthesized_correction_128"
-    # opt.image_dir = "/scratch/users/sastocke/data/data/testresample128normed"
-    #opt.results_dir = "/scratch/users/fwkong/SharedData/3dbatch2epoch100dataaug10x"
+    ref_img = sitk.ReadImage("/scratch/users/sastocke/data/training128/images/ct_1001_image.nii.gz")
     name = opt.name
+    result_folder = os.path.join(ospath, 'checkpoints', name, opt.results_dir)
 
 
 opt.batchSize = 1
@@ -73,11 +70,10 @@ for i, data_i in enumerate(dataloader):
     img_numpy_transposed = img_numpy.transpose(0,2,1)
     img = sitk.GetImageFromArray(img_numpy_transposed)
     img.CopyInformation(ref_img)
-    path = data_i['gtname'][0]
-    filename = os.path.basename(data_i['gtname'][0])
-    sitk.WriteImage(img, os.path.join(opt.results_dir, filename))
-    print(f'saved image: {filename}')
-    
+    name= os.path.basename(data_i['gtname'][0])
+    filename = f"Synthetic{name}"
+    sitk.WriteImage(img, f'{result_folder}/{filename}')
+    print(f'saved image: {filename} in {result_folder}')
     
    
 
