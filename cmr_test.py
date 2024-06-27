@@ -41,7 +41,10 @@ elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
 
 
 
+#Testingcase
 opt.batchSize = 1
+opt.isTrain = False
+
 
 
 
