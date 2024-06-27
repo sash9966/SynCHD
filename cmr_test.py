@@ -33,6 +33,12 @@ elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
     ref_img = sitk.ReadImage("/scratch/users/sastocke/data/training128/images/ct_1001_image.nii.gz")
     name = opt.name
     result_folder = os.path.join(ospath, 'checkpoints', name, opt.results_dir)
+    
+    #check if folder exists, if not create it
+    if not os.path.exists(result_folder):
+        os.makedirs(result_folder)
+        print(f'result_folder: {result_folder}')
+
 
 
 opt.batchSize = 1
