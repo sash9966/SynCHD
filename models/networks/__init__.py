@@ -9,16 +9,12 @@ import importlib.util
 # BUG: Unsure why import fails, this fixed it, from chatgpt
 import os 
 curr_path= os.path.getcwd()
-try:
-    path_to_util = f"{curr_path}/util/util.py"
-    spec = importlib.util.spec_from_file_location("util", path_to_util)
-    util = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(util)
-except:
-    path_to_util = f"{curr_path}/util/util.py"
-    spec = importlib.util.spec_from_file_location("util", path_to_util)
-    util = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(util)
+
+path_to_util = f"{curr_path}/util/util.py"
+spec = importlib.util.spec_from_file_location("util", path_to_util)
+util = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(util)
+
 
 
 
