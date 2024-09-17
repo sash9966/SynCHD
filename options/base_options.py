@@ -7,7 +7,7 @@ from email.policy import default
 import sys
 import argparse
 import os
-from util import util
+from util.util import *
 import torch
 import models
 import data
