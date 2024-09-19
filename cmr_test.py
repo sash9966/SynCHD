@@ -28,7 +28,7 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 
 
 #Sherlock!
-elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
+elif (ospath == "/oak/stanford/groups/amarsden/sastocke/2Dslicesfor3D"):
     opt = TestOptions().parse()
     ref_img = sitk.ReadImage("/scratch/users/sastocke/data/training128/images/ct_1001_image.nii.gz")
     name = opt.name
