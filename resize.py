@@ -1,5 +1,4 @@
 #Fanwei Method!
-
 import numpy as np
 import SimpleITK as sitk
 from copy import deepcopy
@@ -131,15 +130,15 @@ def resample_spacing(sitkIm,output_folder,resolution=0.5, dim=3, template_size=(
     centered = centering(image, ref_img, order)
     transformed = isometric_transform(centered, ref_img, orig_direction, order)
     output_file = os.path.join(output_folder, os.path.basename(input_file))
-    
+    print(f'trasnfomed shape: {transformed.GetSize()}')
     # Save the new image to disk
     sitk.WriteImage(transformed, output_file)
     return transformed, ref_img
 
 
 if __name__ == '__main__':
-    input_folder = '/scratch/users/sastocke/data/unlabeled/cropped_128'
-    output_folder = '/scratch/users/sastocke/data/refimages'
+    input_folder = '/Users/saschastocker/Documents/data/segmentation'
+    output_folder = '/Users/saschastocker/Documents/data/segmentation128'
     # Create the output folder if it doesn't existsast
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)  
@@ -152,3 +151,6 @@ if __name__ == '__main__':
             
         else:
             print(f"Skipping non-NIfTI file: {filename}")
+
+
+    print(f'done!')
