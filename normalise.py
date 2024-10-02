@@ -49,18 +49,31 @@ def normalize_3d_voxel(input_data, range=(-1, 1), percentiles=(1, 99)):
 
 
 #folder path:
-path = '/scratch/users/sastocke/data/unlabeled/cropped_128'
-output = '/scratch/users/sastocke/data/refimages'
+path = '/Users/saschastocker/Documents/data/images'
+output = '/Users/saschastocker/Documents/data/imagesnormalised512'
 
 #list of files in folder
 files = os.listdir(path)
-for file in files:
-    img = sitk.ReadImage(os.path.join(path,file))
-    img = sitk.GetArrayFromImage(img)
-    img = img.astype(np.float32)
-    img_norm = normalize_3d_voxel(img)
-    sitk.WriteImage(sitk.GetImageFromArray(img_norm), os.path.join(output,file))
+nii_files = [file for file in files if file.endswith('.nii.gz')]
+
+print(f'lenght of files: {len(files)}')
+print(f'files: {nii_files}')
+for file in  nii_files:
+    print(f'File coping: {file}')
+    img_sitk = sitk.ReadImage(os.path.join(path, file))
+    img_array = sitk.GetArrayFromImage(img_sitk)
+    img_array = img_array.astype(np.float32)
+    img_norm = normalize_3d_voxel(img_array)
+    
+    # Convert back to SimpleITK image and restore spatial information
+    img_norm_sitk = sitk.GetImageFromArray(img_norm)
+    img_norm_sitk.CopyInformation(img_sitk)  # Copy origin, spacing, direction metadata
+
+    sitk.WriteImage(img_norm_sitk, os.path.join(output, file))
+
 # %%
+
+print('done')
 
 
 
