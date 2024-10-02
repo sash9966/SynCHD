@@ -10,7 +10,7 @@ from models.networks.base_network import BaseNetwork
 from models.networks.normalization import get_nonspade_norm_layer
 import importlib
 
-path_to_util = "/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/util/util.py"
+path_to_util = "/oak/stanford/groups/amarsden/sastocke/2Dslicesfor3D/util/util.py"
 
 spec = importlib.util.spec_from_file_location("util", path_to_util)
 util = importlib.util.module_from_spec(spec)

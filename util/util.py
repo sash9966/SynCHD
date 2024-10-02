@@ -424,8 +424,8 @@ def save_network(net, label, epoch, opt):
 def load_network(net, label, epoch, opt):
 
     #path on sherlock
-    #path = '/scratch/users/fwkong/SharedData/Generators/'
-    path = '/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/checkpoints'
+    #path = '/git ad/fwkong/SharedData/Generators/'
+    path = '/oak/stanford/groups/amarsden/sastocke/2Dslicesfor3D/checkpoints'
     #Generator Name
     #save_filename = '200_net_G.pth'
     save_filename = 'latest_net_G.pth'
