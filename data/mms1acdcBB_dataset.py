@@ -39,9 +39,9 @@ class Mms1acdcBBDataset(BaseDataset):
         #                     help='path to the directory that contains label images')
         # parser.add_argument('--image_dir', type=str, required=False, default ="/home/sastocke/2Dslicesfor3D/data/images" ,
         #                     help='path to the directory that contains photo images')
-        parser.add_argument('--label_dir', type=str, required=False, default = "/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/seg_nii_gz_only",
+        parser.add_argument('--label_dir', type=str, required=False, default = "/oak/stanford/groups/amarsden/sastocke/data/masks512",
                             help='path to the directory that contains label images')
-        parser.add_argument('--image_dir', type=str, required=False, default ="/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img" ,
+        parser.add_argument('--image_dir', type=str, required=False, default ="/oak/stanford/groups/amarsden/sastocke/data/images512normalised" ,
                             help='path to the directory that contains photo images')
         # parser.add_argument('--label_dir', type=str, required=False, default = "/home/sastocke/data/SynthesizedTest",
         #                     help='path to the directory that contains label images')

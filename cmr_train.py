@@ -129,19 +129,19 @@ for epoch in iter_counter.training_epochs():
             # print(f'unique values of synthetic: {np.unique(synthetic.detach().cpu()[rand,0,:,:])}')
 
 
-            fig, axs = plt.subplots(1, 3, figsize=(15, 5))
+            # fig, axs = plt.subplots(1, 3, figsize=(15, 5))
 
-            axs[0].imshow(data_i['label'].detach().cpu()[rand,0,:,:])
-            axs[0].axis('off')
-            axs[0].set_title('Input Label')
-            axs[1].imshow(synthetic.detach().cpu()[rand,0,:,:],cmap='gray')
-            axs[1].axis('off')
-            axs[1].set_title('Synthesized Image')
-            axs[2].imshow(data_i['image'].detach().cpu()[rand,0,:,:],cmap='gray')
-            axs[2].axis('off')
-            axs[2].set_title('Real Image')
-            plt.savefig(f'/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/checkpoints/{name_of_try}/web/images/epoch{epoch}_{i}_plotdepth.png')
-            fig.clf()
+            # axs[0].imshow(data_i['label'].detach().cpu()[rand,0,:,:])
+            # axs[0].axis('off')
+            # axs[0].set_title('Input Label')
+            # axs[1].imshow(synthetic.detach().cpu()[rand,0,:,:],cmap='gray')
+            # axs[1].axis('off')
+            # axs[1].set_title('Synthesized Image')
+            # axs[2].imshow(data_i['image'].detach().cpu()[rand,0,:,:],cmap='gray')
+            # axs[2].axis('off')
+            # axs[2].set_title('Real Image')
+            # plt.savefig(f'/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/checkpoints/{name_of_try}/web/images/epoch{epoch}_{i}_plotdepth.png')
+            # fig.clf()
 
             #Save 3D stacked image
 
