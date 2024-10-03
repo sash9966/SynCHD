@@ -48,7 +48,7 @@ class TrainOptions(BaseOptions):
         parser.add_argument('--lambda_vgg', type=float, default=1.0, help='weight for vgg loss')
         parser.add_argument('--no_ganFeat_loss', action='store_true', help='if specified, do *not* use discriminator feature matching loss')
         parser.add_argument('--no_vgg_loss', action='store_true', help='if specified, do *not* use VGG feature matching loss')
-        parser.add_argument('--unet_loss', type=bool, default= True, help='use unet loss')
+        parser.add_argument('--unet_loss', type=bool, default= False, help='use unet loss')
         parser.add_argument('--gan_mode', type=str, default='hinge', help='(ls|original|hinge)')
         parser.add_argument('--netD', type=str, default='multiscale', help='(n_layers|multiscale|image)')
         parser.add_argument('--lambda_kld', type=float, default=0.05)
