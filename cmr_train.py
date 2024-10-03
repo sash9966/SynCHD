@@ -32,7 +32,7 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 #Sherlock oak!
 elif (ospath == "/oak/stanford/groups/amarsden/sastocke/2Dslicesfor3D"):
     opt = TrainOptions().parse()
-    ref_img = sitk.ReadImage("/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img128/ct_1001_image.nii.gz")
+    ref_img = sitk.ReadImage("/oak/stanford/groups/amarsden/sastocke/data/training128/images/ct_1001_image.nii.gz")
     name_of_try= opt.name
     web_dir = os.path.join(opt.checkpoints_dir, opt.name,
                        '%s_%s' % (opt.phase, opt.which_epoch))
