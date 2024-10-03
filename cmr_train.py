@@ -29,8 +29,8 @@ if (ospath == "/home/sastocke/2Dslicesfor3D"):
 
 
 #Test git update...')
-#Sherlock!
-elif (ospath == "/scratch/users/sastocke/2Dslicesfor3D"):
+#Sherlock oak!
+elif (ospath == "/oak/stanford/groups/amarsden/sastocke/2Dslicesfor3D"):
     opt = TrainOptions().parse()
     ref_img = sitk.ReadImage("/scratch/users/fwkong/SharedData/imageCHDCleanedOriginal_aligned_all/aligned/normed_img128/ct_1001_image.nii.gz")
     name_of_try= opt.name
