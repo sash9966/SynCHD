@@ -24,7 +24,7 @@ import pickle
 opt = TestOptions().parse()
 
 #Generate image for these masks
-opt.label_dir = '/oak/stanford/groups/amarsden/sastocke/data/128resampled/'
+opt.label_dir = '/oak/stanford/groups/amarsden/sastocke/data/masks512old'
 opt.image_dir = '/oak/stanford/groups/amarsden/sastocke/data/images512normalised/ct_1001_image.nii.gz'
 #Background image for generation!
 #Output path to save the generated images
