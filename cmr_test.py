@@ -24,14 +24,12 @@ import pickle
 opt = TestOptions().parse()
 
 #Generate image for these masks
-opt.label_dir = '/scratch/users/fwkong/CHD/imageCHDCleanedOriginal_aligned_all/aligned/seg'
-opt.label_dir = '/scratch/users/fwkong/CHD/output/wh_raw_tests_cleanedall/GenLargeWHSep3/Ours_final_Apr11/alter5Joint1000_latent4_lipx100_NOuseDiag_Init1017_DivMag0.01_Pad0_GradMag0_smplfac20_twophase/train_2200/shape_gen/seg'
+opt.label_dir = '/oak/stanford/groups/amarsden/sastocke/data/128resampled/'
+
 #Background image for generation!
-opt.image_dir = '/scratch/users/sastocke/3dtrysherlock/2Dslicesfor3D/2Dslicesfor3D/ct_1178_image_nrmp1m05.nii.gz'
 #Output path to save the generated images
-opt.results_dir = '/scratch/users/fwkong/CHD/imageCHDCleanedOriginal_aligned_all/aligned/syn_testp1m05'
-opt.results_dir = '/scratch/users/fwkong/CHD/output/wh_raw_tests_cleanedall/GenLargeWHSep3/Ours_final_Apr11/alter5Joint1000_latent4_lipx100_NOuseDiag_Init1017_DivMag0.01_Pad0_GradMag0_smplfac20_twophase/train_2200/shape_gen/img'
-output_path = opt.results_dir
+cur_path= os.getcwd()
+output_path = f'{cur_path}/checkpoints/{opt.name}/vsd_results'
 #target_path = '/scratch/users/fwkong/SharedData/imageCHDcleaned_all/whole_heart_processed/pytorch/ct_1001_image_0.pkl'
 name = opt.name
 
