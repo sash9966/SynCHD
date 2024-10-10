@@ -47,6 +47,12 @@ elif (ospath == "/oak/stanford/groups/amarsden/sastocke/2Dslicesfor3D"):
 # load the dataset
 dataloader = data.create_dataloader(opt)
 
+print(f'opt.unet_loss == False!')
+print(f'opt.unet_loss = {opt.unet_loss}')
+
+print(f'hardcoding to false')
+opt.unet_loss = False
+print(f'opt.unet_loss after hardcode = {opt.unet_loss}')
 # create trainer for our model
 trainer = Pix2PixTrainer(opt)
 
@@ -58,7 +64,6 @@ visualizer = Visualizer(opt)
 
 
 
-    
 
 for epoch in iter_counter.training_epochs():
     print('epoch', epoch)
