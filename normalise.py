@@ -49,7 +49,7 @@ def normalize_3d_voxel(input_data, range=(-1, 1), percentiles=(1, 99)):
 
 
 #folder path:
-path = '/oak/stanford/groups/amarsden/sastocke/data/training128'
+path = '/oak/stanford/groups/amarsden/sastocke/data/training128/images'
 output = '/oak/stanford/groups/amarsden/sastocke/data/training128normalized'
 
 #list of files in folder
