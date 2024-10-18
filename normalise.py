@@ -49,8 +49,8 @@ def normalize_3d_voxel(input_data, range=(-1, 1), percentiles=(1, 99)):
 
 
 #folder path:
-path = '/Users/saschastocker/Documents/data/images'
-output = '/Users/saschastocker/Documents/data/imagesnormalised512'
+path = '/oak/stanford/groups/amarsden/sastocke/data/training128'
+output = '/oak/stanford/groups/amarsden/sastocke/data/training128normalized'
 
 #list of files in folder
 files = os.listdir(path)
