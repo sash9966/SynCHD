@@ -1,7 +1,7 @@
 # Synthetic Image Generation to Aid Segmentation of Congenital Heart Disease Patient Images
 
 Welcome to the GitHub repository dedicated to advancing the segmentation of congenital heart disease (CHD) patient images through synthetic image generation. This project aims to address the challenges posed by the rarity of CHD and the resultant data scarcity in machine learning applications, by generating synthetic yet anatomically accurate CT images of CHD patients.
-This work builds on the work of Amirrajab et al. Please check out their github and their paper: https://github.com/sinaamirrajab/CardiacPathologySynthesis, https://arxiv.org/abs/2209.04223 
+
 
 ## Branches Overview
 - **Master**: This branch contains the fully functional 2D image generation architecture.
@@ -26,5 +26,7 @@ Early results of this work for 2D generation are included in the experimental se
 Thank you for your interest in our project, and we hope our research contributes to significant advancements in the field of medical imaging and treatment of congenital heart disease.
 
 
+
+This work builds on the work of Amirrajab et al. Please check out their github and their paper: https://github.com/sinaamirrajab/CardiacPathologySynthesis, https://arxiv.org/abs/2209.04223 and the SPADE GANs by Park et al. from Nvidia: https://arxiv.org/abs/1903.07291, https://github.com/nvlabs/spade/
 
 Feel free to contact me for any questions: sastocke@stanford.edu
