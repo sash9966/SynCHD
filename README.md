@@ -27,4 +27,4 @@ Thank you for your interest in our project, and we hope our research contributes
 
 
 
-Feel free to contact me for any questions: sastocke@ethz.ch 
+Feel free to contact me for any questions: sastocke@stanford.edu
