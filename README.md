@@ -1,4 +1,4 @@
-# Synthetic Image Generation to Aid Segmentation of Congenital Heart Disease Patient Images
+# SynCHD: Anatomy-Conditioned Synthetic CT Generation for Congenital Heart Disease
 
 Welcome to the GitHub repository dedicated to advancing the segmentation of congenital heart disease (CHD) patient images through synthetic image generation. This project aims to address the challenges posed by the rarity of CHD and the resultant data scarcity in machine learning applications, by generating synthetic yet anatomically accurate CT images of CHD patients.
 
